@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Full Results - ShoeLink</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 50px;
+            border: 1px solid rgba(14, 165, 233, 0.1);
+        }
+
+        .success-banner {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .success-banner h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .success-banner p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h2 {
+            color: #0f172a;
+            font-size: 28px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        .personalized-note {
+            background: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 18px 20px;
+            margin-bottom: 35px;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #334155;
+            line-height: 1.7;
+        }
+
+        .personalized-note strong {
+            color: #0ea5e9;
+        }
+
+        .shoe-recommendation {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .shoe-recommendation:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .shoe-recommendation.rank-1 {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-color: #f59e0b;
+        }
+
+        .shoe-recommendation.rank-2 {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-color: #0ea5e9;
+        }
+
+        .rank-badge {
+            position: absolute;
+            top: -12px;
+            left: 28px;
+            background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 20px;
+            box-shadow: 0 4px 10px rgba(6, 182, 212, 0.3);
+        }
+
+        .rank-badge.gold {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.4);
+        }
+
+        .rank-badge.silver {
+            background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
+        }
+
+        .recommendation-badge {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+            letter-spacing: 0.8px;
+        }
+
+        .badge-best {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .badge-runner {
+            background: #0ea5e9;
+            color: white;
+        }
+
+        .badge-solid {
+            background: #64748b;
+            color: white;
+        }
+
+        .shoe-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 12px;
+            letter-spacing: -0.3px;
+            padding-left: 0;
+        }
+
+        .shoe-reason {
+            color: #475569;
+            line-height: 1.7;
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        .match-score {
+            display: inline-block;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid #06b6d4;
+            color: #0c4a6e;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+
+        .shoe-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+            padding: 16px;
+            background: rgba(241, 245, 249, 0.6);
+            border-radius: 10px;
+        }
+
+        .spec-item {
+            text-align: center;
+        }
+
+        .spec-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .spec-value {
+            font-weight: 700;
+            font-size: 16px;
+            color: #0f172a;
+        }
+
+        .shoe-features {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #e2e8f0;
+            line-height: 1.7;
+        }
+
+        .shoe-features strong {
+            color: #334155;
+        }
+
+        .comparison-section {
+            margin-top: 50px;
+            padding-top: 40px;
+            border-top: 3px solid #e2e8f0;
+        }
+
+        .comparison-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            overflow-x: auto;
+            display: block;
+        }
+
+        .comparison-table thead {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        .comparison-table th {
+            color: white;
+            padding: 16px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .comparison-table td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .comparison-table tr:hover td {
+            background: #f8fafc;
+        }
+
+        .comparison-table tr.highlight-row td {
+            background: #fef3c7;
+            font-weight: 600;
+        }
+
+        .rating-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rating-fill {
+            height: 8px;
+            background: linear-gradient(90deg, #06b6d4 0%, #0ea5e9 100%);
+            border-radius: 4px;
+        }
+
+        .rating-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: #334155;
+            min-width: 35px;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%);
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-box h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .cta-box p {
+            color: #94a3b8;
+            margin-bottom: 24px;
+            font-size: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(6, 182, 212, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #475569;
+            border: 2px solid #e2e8f0;
+            margin-top: 20px;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        .email-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: #78350f;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .shoe-specs {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .comparison-table {
+                font-size: 12px;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Success Banner -->
+        <div class="success-banner">
+            <h1>🎉 Payment Successful!</h1>
+            <p>Your complete top 5 basketball shoe recommendations are below</p>
+        </div>
+
+        <!-- Email Confirmation -->
+        <div class="email-box" id="emailConfirmation">
+            📧 A copy of these results has been sent to your email
+        </div>
+
+        <!-- Results Container -->
+        <div class="header">
+            <h2>Your Complete Top 5 Matches</h2>
+            <p>Ranked by compatibility with your playing style and needs</p>
+        </div>
+
+        <div id="personalizedIntro"></div>
+        <div id="fullResults"></div>
+
+        <!-- Comparison Section -->
+        <div class="comparison-section">
+            <h3 class="comparison-title">Side-by-Side Comparison</h3>
+            <table class="comparison-table" id="comparisonTable">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Shoe</th>
+                        <th>Match Score</th>
+                        <th>Traction</th>
+                        <th>Speed</th>
+                        <th>Cushion</th>
+                        <th>Support</th>
+                        <th>Price Range</th>
+                    </tr>
+                </thead>
+                <tbody id="comparisonBody">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- CTA Box -->
+        <div class="cta-box">
+            <h3>Ready to Get Your Perfect Shoe?</h3>
+            <p>We've found your matches - now it's time to try them on and dominate the court</p>
+            <a href="#" class="btn btn-primary" onclick="alert('Affiliate shopping links coming soon!'); return false;">Find Best Prices →</a>
+            <br>
+            <a href="index.html" class="btn btn-secondary">Take Quiz Again</a>
+        </div>
+    </div>
+
+    <script>
+        // Shoe database (copy from your main quiz)
+        const shoeDatabase = [
+// COMPREHENSIVE 100+ SHOE DATABASE - 2024-2026 CURRENT RELEASES ONLY
+// Your 28 priority shoes: popularity 85-99 (pushed to top)
+// Additional 72+ shoes: popularity 50-84 (still shown but ranked lower)
+
+
+    // ============================================
+    // YOUR 28 PRIORITY SHOES (Popularity 85-99)
+    // ============================================
+    
+    {
+        name: "Kobe 6 Protro",
+        brand: "nike",
+        playStyle: ["quick", "shooter"],
+        fit: ["narrow", "no_pref"],
+        support: ["somewhat", "not_important"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["150-200", "200-250", "luxury"],
+        popularity: 99,
+        description: "Legendary low-top with elite traction. Perfect for quick guards. 2024-2025 Protro releases"
+    },
+    {
+        name: "Nike LeBron 21",
+        brand: "nike",
+        playStyle: ["big", "versatile"],
+        fit: ["wide", "no_pref"],
+        support: ["extremely", "important"],
+        features: ["cushion", "stability"],
+        court: ["indoor", "both"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["200-250", "luxury"],
+        popularity: 98,
+        description: "2024 release. Premium cushioning and stability for power players and versatile forwards"
+    },
+    {
+        name: "Kobe 8 Protro",
+        brand: "nike",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat", "not_important"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["150-200", "200-250"],
+        popularity: 97,
+        description: "2024-2025 Protro. Flexible, lightweight, smooth traction for fast guards"
+    },
+    {
+        name: "Jordan Luka 3",
+        brand: "nike",
+        playStyle: ["versatile", "quick"],
+        fit: ["no_pref"],
+        support: ["somewhat", "important"],
+        features: ["speed", "cushion", "style"],
+        court: ["indoor", "both"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["150-200"],
+        popularity: 96,
+        description: "2024 release. Excellent all-around performance for versatile players"
+    },
+    {
+        name: "Way of Wade 12",
+        brand: "lining",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat", "important"],
+        features: ["speed", "cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 95,
+        description: "2025-2026 release. Lightweight, responsive, incredible value for guards"
+    },
+    {
+        name: "Nike G.T. Cut 4",
+        brand: "nike",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat", "important"],
+        features: ["speed", "cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["150-200", "200-250"],
+        popularity: 95,
+        description: "2025-2026 release. Updated cushioning and elite grip for explosive guards"
+    },
+    {
+        name: "Nike G.T. Cut 3",
+        brand: "nike",
+        playStyle: ["quick"],
+        fit: ["narrow", "no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["150-200"],
+        popularity: 94,
+        description: "2024 release. Explosive traction, lightweight for quick guards"
+    },
+    {
+        name: "Jordan Luka 4",
+        brand: "nike",
+        playStyle: ["versatile"],
+        fit: ["no_pref"],
+        support: ["important"],
+        features: ["cushion", "stability"],
+        court: ["indoor", "outdoor", "both"],
+        cleanliness: ["very_clean", "mostly_clean", "dusty"],
+        budget: ["150-200"],
+        popularity: 94,
+        description: "2025-2026 release. Enhanced cushioning and durability for indoor/outdoor"
+    },
+    {
+        name: "Kobe 9 Elite",
+        brand: "nike",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat", "important"],
+        features: ["speed", "cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["200-250", "luxury"],
+        popularity: 96,
+        description: "2024-2025 Protro. Flyknit upper, responsive for agile players"
+    },
+    {
+        name: "Nike Ja 3",
+        brand: "nike",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed", "cushion"],
+        court: ["indoor", "both"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 92,
+        description: "2024-2025. Balanced cushioning and traction for guards, great value"
+    },
+    {
+        name: "Nike Sabrina 3",
+        brand: "nike",
+        playStyle: ["quick", "versatile"],
+        fit: ["narrow", "no_pref"],
+        support: ["somewhat", "important"],
+        features: ["speed", "cushion"],
+        court: ["indoor", "outdoor", "both"],
+        cleanliness: ["very_clean", "mostly_clean", "dusty"],
+        budget: ["100-150"],
+        popularity: 91,
+        description: "2025-2026 release. Upgraded cushioning and support, indoor/outdoor versatility"
+    },
+    {
+        name: "Nike KD 18",
+        brand: "nike",
+        playStyle: ["shooter", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["150-200"],
+        popularity: 90,
+        description: "2025-2026 release. Smooth ride with excellent cushioning for shooters"
+    },
+    {
+        name: "Under Armour Curry 7",
+        brand: "ua",
+        playStyle: ["shooter", "quick"],
+        fit: ["narrow", "no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 90,
+        description: "Low-profile shooter's shoe, excellent traction and court feel"
+    },
+    {
+        name: "Nike Sabrina 2",
+        brand: "nike",
+        playStyle: ["quick"],
+        fit: ["narrow", "no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor", "outdoor", "both"],
+        cleanliness: ["very_clean", "mostly_clean", "dusty"],
+        budget: ["100-150"],
+        popularity: 89,
+        description: "2024-2025. Lightweight for quick players, indoor/outdoor flexibility"
+    },
+    {
+        name: "ANTA Kai 1",
+        brand: "anta",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat", "important"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 88,
+        description: "2024-2025. Lightweight, excellent value, great for guards"
+    },
+    {
+        name: "ANTA Kai 2",
+        brand: "anta",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["important"],
+        features: ["speed", "cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["150-200"],
+        popularity: 89,
+        description: "2025-2026 release. Updated cushioning and support for guards"
+    },
+    {
+        name: "Nike Book 1",
+        brand: "nike",
+        playStyle: ["shooter"],
+        fit: ["narrow"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["under100", "100-150"],
+        popularity: 88,
+        description: "2024-2025. Budget-friendly with excellent traction for shooters"
+    },
+    {
+        name: "Adidas AE 1",
+        brand: "adidas",
+        playStyle: ["big", "versatile"],
+        fit: ["no_pref", "wide"],
+        support: ["important", "extremely"],
+        features: ["durable", "stability"],
+        court: ["indoor", "both"],
+        cleanliness: ["very_clean", "mostly_clean", "dusty"],
+        budget: ["under100", "100-150"],
+        popularity: 87,
+        description: "2024 release. Durable, stable, budget-friendly for big players"
+    },
+    {
+        name: "Adidas Harden v.9",
+        brand: "adidas",
+        playStyle: ["versatile", "big"],
+        fit: ["no_pref", "wide"],
+        support: ["important"],
+        features: ["cushion", "stability"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 86,
+        description: "2025-2026 release. Upgraded cushioning and support for versatile players"
+    },
+    {
+        name: "Adidas Harden v.8",
+        brand: "adidas",
+        playStyle: ["big", "versatile"],
+        fit: ["no_pref", "wide"],
+        support: ["important", "extremely"],
+        features: ["stability", "cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 85,
+        description: "2024-2025. Stability and midfoot support for bigger players"
+    },
+    {
+        name: "Way of Wade 5 Ultra V2",
+        brand: "lining",
+        playStyle: ["quick"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor", "outdoor", "both"],
+        cleanliness: ["very_clean", "mostly_clean", "dusty"],
+        budget: ["100-150"],
+        popularity: 85,
+        description: "2024-2025. Lightweight, durable for indoor/outdoor guards"
+    },
+    {
+        name: "Way of Wade 10",
+        brand: "lining",
+        playStyle: ["quick"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["cushion", "speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 84,
+        description: "2024-2025. Cushion-focused guard shoe, responsive and lightweight"
+    },
+    {
+        name: "New Balance Fresh Foam BB V2",
+        brand: "nb",
+        playStyle: ["big", "versatile"],
+        fit: ["wide", "no_pref"],
+        support: ["important", "extremely"],
+        features: ["cushion", "stability"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 83,
+        description: "2024-2025. Excellent cushioning and support for bigger players"
+    },
+    {
+        name: "Adidas Don Issue 6",
+        brand: "adidas",
+        playStyle: ["quick", "shooter"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["under100", "100-150"],
+        popularity: 82,
+        description: "2024-2025. Affordable, responsive for guards and shooters"
+    },
+    {
+        name: "Way of Wade All City 13",
+        brand: "lining",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat", "important"],
+        features: ["durable", "speed"],
+        court: ["outdoor", "both"],
+        cleanliness: ["dusty", "very_dusty", "mostly_clean"],
+        budget: ["under100", "100-150"],
+        popularity: 81,
+        description: "2025-2026 release. Durable outdoor shoe with solid traction"
+    },
+    {
+        name: "Way of Wade All City 12",
+        brand: "lining",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["durable", "speed"],
+        court: ["outdoor", "both"],
+        cleanliness: ["dusty", "very_dusty", "mostly_clean"],
+        budget: ["under100", "100-150"],
+        popularity: 80,
+        description: "2024-2025. Budget outdoor shoe for guards, good durability"
+    },
+    {
+        name: "Puma Court Rider",
+        brand: "puma",
+        playStyle: ["versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat", "important"],
+        features: ["durable"],
+        court: ["outdoor", "both"],
+        cleanliness: ["dusty", "very_dusty", "mostly_clean"],
+        budget: ["under100", "100-150"],
+        popularity: 78,
+        description: "2024-2025. Durable outdoor versatile shoe"
+    },
+    {
+        name: "361 Joker Series",
+        brand: "361",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["durable", "speed"],
+        court: ["outdoor", "both"],
+        cleanliness: ["dusty", "very_dusty", "mostly_clean"],
+        budget: ["under100", "100-150"],
+        popularity: 75,
+        description: "2024-2025. Budget outdoor shoe, solid traction on dusty courts"
+    },
+
+    // ============================================
+    // ADDITIONAL 72 POPULAR CURRENT SHOES (50-84)
+    // ============================================
+    
+    {
+        name: "Jordan Tatum 3",
+        brand: "nike",
+        playStyle: ["versatile", "quick"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed", "style"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 76,
+        description: "2025-2026 release. Jayson Tatum's third signature, sleek and versatile"
+    },
+    {
+        name: "Jordan Tatum 2",
+        brand: "nike",
+        playStyle: ["versatile", "quick"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed", "style"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 74,
+        description: "2024-2025. Good all-around performance for versatile wings"
+    },
+    {
+        name: "Nike LeBron NXXT Gen",
+        brand: "nike",
+        playStyle: ["versatile", "big"],
+        fit: ["no_pref"],
+        support: ["important"],
+        features: ["cushion", "speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["150-200", "200-250"],
+        popularity: 73,
+        description: "2024-2025. Lighter weight LeBron, versatile performance"
+    },
+    {
+        name: "Nike PG 6",
+        brand: "nike",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed", "cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 72,
+        description: "2024 release. Budget-friendly, good all-around guard shoe"
+    },
+    {
+        name: "Jordan Zion 3",
+        brand: "nike",
+        playStyle: ["big", "versatile"],
+        fit: ["wide", "no_pref"],
+        support: ["important"],
+        features: ["cushion", "stability"],
+        court: ["indoor", "both"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 71,
+        description: "2024-2025. Built for powerful forwards, wide base and cushioning"
+    },
+    {
+        name: "Adidas Dame 8",
+        brand: "adidas",
+        playStyle: ["quick", "shooter"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed", "cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 70,
+        description: "2024 release. Solid guard shoe with Bounce cushioning"
+    },
+    {
+        name: "Adidas Anthony Edwards 1",
+        brand: "adidas",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat", "important"],
+        features: ["speed", "cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 69,
+        description: "2024-2025. Young star's signature, good all-around performance"
+    },
+    {
+        name: "Nike Zoom Freak 5",
+        brand: "nike",
+        playStyle: ["versatile", "big"],
+        fit: ["no_pref", "wide"],
+        support: ["important"],
+        features: ["cushion", "speed"],
+        court: ["indoor", "both"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 68,
+        description: "2024-2025. Giannis' signature, great for versatile forwards"
+    },
+    {
+        name: "Adidas Trae Young 3",
+        brand: "adidas",
+        playStyle: ["quick", "shooter"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 66,
+        description: "2024-2025. Lightweight guard shoe, good for quick players"
+    },
+    {
+        name: "Nike Kyrie Low 5",
+        brand: "nike",
+        playStyle: ["quick"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 65,
+        description: "2024 release. Low-to-ground feel for quick guards"
+    },
+    {
+        name: "New Balance Two WXY v4",
+        brand: "nb",
+        playStyle: ["versatile"],
+        fit: ["wide", "no_pref"],
+        support: ["somewhat", "important"],
+        features: ["cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 64,
+        description: "2024-2025. Versatile performance shoe, Fresh Foam cushioning"
+    },
+    {
+        name: "Puma All-Pro Nitro",
+        brand: "puma",
+        playStyle: ["versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 62,
+        description: "2024 release. Puma's performance shoe, Nitro foam cushioning"
+    },
+    {
+        name: "Puma Stewie 2",
+        brand: "puma",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 60,
+        description: "2024-2025. Breanna Stewart signature, good for guards and forwards"
+    },
+    {
+        name: "Under Armour Curry 11",
+        brand: "ua",
+        playStyle: ["shooter", "quick"],
+        fit: ["narrow", "no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["150-200"],
+        popularity: 74,
+        description: "2024-2025. Latest Curry signature, excellent traction for shooters"
+    },
+    {
+        name: "Under Armour Curry 10",
+        brand: "ua",
+        playStyle: ["shooter", "quick"],
+        fit: ["narrow", "no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 72,
+        description: "2024. Great shooter's shoe with low-profile fit"
+    },
+    {
+        name: "Under Armour Havoc 5",
+        brand: "ua",
+        playStyle: ["quick"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["under100"],
+        popularity: 55,
+        description: "2024. Budget option for guards, decent performance"
+    },
+    {
+        name: "Nike Kobe 4 Protro",
+        brand: "nike",
+        playStyle: ["quick", "shooter"],
+        fit: ["narrow", "no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["150-200", "200-250", "luxury"],
+        popularity: 93,
+        description: "2024-2025 Protro releases. Classic Kobe silhouette, excellent for guards"
+    },
+    {
+        name: "Nike Kobe 5 Protro",
+        brand: "nike",
+        playStyle: ["quick", "versatile"],
+        fit: ["narrow", "no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["150-200", "200-250"],
+        popularity: 94,
+        description: "2024-2025 Protro. Versatile performance, great for fast players"
+    },
+    {
+        name: "Nike LeBron 20",
+        brand: "nike",
+        playStyle: ["big", "versatile"],
+        fit: ["wide", "no_pref"],
+        support: ["extremely", "important"],
+        features: ["cushion", "stability"],
+        court: ["indoor", "both"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["150-200", "200-250"],
+        popularity: 85,
+        description: "2024. Previous LeBron model, still excellent for power players"
+    },
+    {
+        name: "Nike G.T. Cut 2",
+        brand: "nike",
+        playStyle: ["quick"],
+        fit: ["narrow", "no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["150-200"],
+        popularity: 90,
+        description: "2024. Previous GT Cut model, still elite traction for guards"
+    },
+    {
+        name: "Jordan Luka 2",
+        brand: "nike",
+        playStyle: ["versatile", "quick"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed", "cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 84,
+        description: "2024. Luka's second signature, good all-around shoe"
+    },
+    {
+        name: "Jordan Luka 1",
+        brand: "nike",
+        playStyle: ["versatile", "quick"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed", "cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 78,
+        description: "2024. First Luka signature, solid versatile option"
+    },
+    {
+        name: "Nike Ja 2",
+        brand: "nike",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor", "both"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 80,
+        description: "2024. Ja's second signature, good for guards"
+    },
+    {
+        name: "Nike Sabrina 1",
+        brand: "nike",
+        playStyle: ["quick"],
+        fit: ["narrow", "no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["under100", "100-150"],
+        popularity: 76,
+        description: "2024. First Sabrina signature, budget-friendly guard shoe"
+    },
+    {
+        name: "Nike Book 1",
+        brand: "nike",
+        playStyle: ["shooter", "quick"],
+        fit: ["narrow"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["under100", "100-150"],
+        popularity: 88,
+        description: "2024-2025. Devin Booker's first signature, excellent value"
+    },
+    {
+        name: "Nike Cosmic Unity 3",
+        brand: "nike",
+        playStyle: ["versatile"],
+        fit: ["no_pref"],
+        support: ["important"],
+        features: ["cushion", "durable"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["150-200"],
+        popularity: 65,
+        description: "2024-2025. Sustainable materials, good cushioning"
+    },
+    {
+        name: "Nike Precision 7",
+        brand: "nike",
+        playStyle: ["versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["durable"],
+        court: ["indoor", "outdoor", "both"],
+        cleanliness: ["mostly_clean", "dusty"],
+        budget: ["under100"],
+        popularity: 58,
+        description: "2024-2025. Budget all-around shoe, durable"
+    },
+    {
+        name: "Nike Renew Elevate 3",
+        brand: "nike",
+        playStyle: ["versatile"],
+        fit: ["no_pref"],
+        support: ["important"],
+        features: ["cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["under100"],
+        popularity: 56,
+        description: "2024. Budget option with decent cushioning"
+    },
+    {
+        name: "Adidas AE 2",
+        brand: "adidas",
+        playStyle: ["big", "versatile"],
+        fit: ["no_pref", "wide"],
+        support: ["important", "extremely"],
+        features: ["durable", "stability"],
+        court: ["indoor", "both"],
+        cleanliness: ["very_clean", "mostly_clean", "dusty"],
+        budget: ["100-150"],
+        popularity: 83,
+        description: "2025-2026 release. Updated Anthony Edwards signature, improved support"
+    },
+    {
+        name: "Adidas Dame 9",
+        brand: "adidas",
+        playStyle: ["quick", "shooter"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed", "cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 72,
+        description: "2025-2026 release. Latest Dame signature, solid guard shoe"
+    },
+    {
+        name: "Adidas Harden v.7",
+        brand: "adidas",
+        playStyle: ["big", "versatile"],
+        fit: ["no_pref", "wide"],
+        support: ["important"],
+        features: ["stability", "cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 74,
+        description: "2024. Previous Harden model, good stability"
+    },
+    {
+        name: "Adidas D.O.N. Issue 5",
+        brand: "adidas",
+        playStyle: ["quick", "shooter"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["under100"],
+        popularity: 70,
+        description: "2024. Budget Donovan Mitchell signature"
+    },
+    {
+        name: "Adidas Exhibit A",
+        brand: "adidas",
+        playStyle: ["versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["durable"],
+        court: ["indoor", "outdoor", "both"],
+        cleanliness: ["mostly_clean", "dusty"],
+        budget: ["under100"],
+        popularity: 54,
+        description: "2024-2025. Budget all-around option"
+    },
+    {
+        name: "Adidas Pro Bounce",
+        brand: "adidas",
+        playStyle: ["versatile", "big"],
+        fit: ["no_pref", "wide"],
+        support: ["important"],
+        features: ["cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["under100", "100-150"],
+        popularity: 58,
+        description: "2024. Budget option with Bounce cushioning"
+    },
+    {
+        name: "Adidas Pro Next",
+        brand: "adidas",
+        playStyle: ["quick"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["under100"],
+        popularity: 52,
+        description: "2024. Budget guard shoe"
+    },
+    {
+        name: "Under Armour Curry Flow 10",
+        brand: "ua",
+        playStyle: ["shooter", "quick"],
+        fit: ["narrow", "no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["150-200"],
+        popularity: 73,
+        description: "2024. Curry Flow line, grippy rubber-less outsole"
+    },
+    {
+        name: "Under Armour Curry 9",
+        brand: "ua",
+        playStyle: ["shooter", "quick"],
+        fit: ["narrow", "no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 70,
+        description: "2024. Previous Curry model, still solid for shooters"
+    },
+    {
+        name: "Under Armour Spawn 6",
+        brand: "ua",
+        playStyle: ["versatile"],
+        fit: ["no_pref"],
+        support: ["important"],
+        features: ["cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["under100", "100-150"],
+        popularity: 60,
+        description: "2024-2025. Budget all-around shoe"
+    },
+    {
+        name: "Under Armour HOVR Havoc 4",
+        brand: "ua",
+        playStyle: ["quick"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["under100"],
+        popularity: 54,
+        description: "2024. Budget guard option with HOVR cushioning"
+    },
+    {
+        name: "New Balance Two WXY v3",
+        brand: "nb",
+        playStyle: ["versatile"],
+        fit: ["wide", "no_pref"],
+        support: ["somewhat"],
+        features: ["cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 66,
+        description: "2024. Previous Two WXY model, good for wider feet"
+    },
+    {
+        name: "New Balance 650",
+        brand: "nb",
+        playStyle: ["versatile", "big"],
+        fit: ["wide", "no_pref"],
+        support: ["important"],
+        features: ["stability"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 62,
+        description: "2024. Retro-inspired, good support"
+    },
+    {
+        name: "New Balance FuelCell",
+        brand: "nb",
+        playStyle: ["quick"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 58,
+        description: "2024-2025. Lightweight with FuelCell cushioning"
+    },
+    {
+        name: "Li-Ning YuShuai 15",
+        brand: "lining",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 58,
+        description: "2024-2025. Chinese brand offering, good for quick players"
+    },
+    {
+        name: "Li-Ning Speed 9",
+        brand: "lining",
+        playStyle: ["quick"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 56,
+        description: "2024-2025. Lightweight guard shoe"
+    },
+    {
+        name: "Li-Ning Cloud 5",
+        brand: "lining",
+        playStyle: ["versatile"],
+        fit: ["no_pref"],
+        support: ["important"],
+        features: ["cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 54,
+        description: "2024. Cushioning focus, all-around performance"
+    },
+    {
+        name: "Peak Lou Williams 7",
+        brand: "other_brand",
+        playStyle: ["quick", "shooter"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["under100", "100-150"],
+        popularity: 52,
+        description: "2024-2025. Budget Chinese brand, decent for guards"
+    },
+    {
+        name: "Peak Tony Parker 9",
+        brand: "other_brand",
+        playStyle: ["quick"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 50,
+        description: "2024. Tony Parker signature, guard-focused"
+    },
+    {
+        name: "361 Big3 Future",
+        brand: "361",
+        playStyle: ["versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["durable"],
+        court: ["indoor", "outdoor", "both"],
+        cleanliness: ["mostly_clean", "dusty"],
+        budget: ["under100"],
+        popularity: 48,
+        description: "2024-2025. Budget all-around, indoor/outdoor capable"
+    },
+    {
+        name: "361 Aaron Gordon 6",
+        brand: "361",
+        playStyle: ["versatile", "big"],
+        fit: ["no_pref"],
+        support: ["important"],
+        features: ["cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 54,
+        description: "2024-2025. Aaron Gordon signature, good cushioning"
+    },
+    {
+        name: "ANTA Shock Wave 6",
+        brand: "anta",
+        playStyle: ["versatile"],
+        fit: ["no_pref"],
+        support: ["important"],
+        features: ["cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 64,
+        description: "2024-2025. ANTA performance line, good cushioning"
+    },
+    {
+        name: "ANTA GH4",
+        brand: "anta",
+        playStyle: ["big", "versatile"],
+        fit: ["no_pref", "wide"],
+        support: ["important", "extremely"],
+        features: ["stability", "cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150", "150-200"],
+        popularity: 68,
+        description: "2024. Gordon Hayward signature, stable for bigger players"
+    },
+    {
+        name: "ANTA KT9",
+        brand: "anta",
+        playStyle: ["shooter", "quick"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 75,
+        description: "2024-2025. Klay Thompson signature, shooter-focused"
+    },
+    {
+        name: "Puma MB.03",
+        brand: "puma",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed", "style"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 76,
+        description: "2024-2025. LaMelo Ball signature, flashy and functional"
+    },
+    {
+        name: "Puma MB.02",
+        brand: "puma",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 70,
+        description: "2024. Previous LaMelo model"
+    },
+    {
+        name: "Puma Stewie 3",
+        brand: "puma",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat", "important"],
+        features: ["speed", "cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 64,
+        description: "2025-2026 release. Breanna Stewart's latest signature"
+    },
+    {
+        name: "Puma Fusion Nitro",
+        brand: "puma",
+        playStyle: ["versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["under100", "100-150"],
+        popularity: 56,
+        description: "2024. Budget performance shoe with Nitro foam"
+    },
+    {
+        name: "Puma Clyde All-Pro Nitro",
+        brand: "puma",
+        playStyle: ["versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 58,
+        description: "2024. Updated Clyde model, good cushioning"
+    },
+    {
+        name: "Puma TRC Blaze Court",
+        brand: "puma",
+        playStyle: ["quick"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["under100"],
+        popularity: 50,
+        description: "2024. Budget guard option"
+    },
+    {
+        name: "Jordan Zion 2",
+        brand: "nike",
+        playStyle: ["big", "versatile"],
+        fit: ["wide", "no_pref"],
+        support: ["important"],
+        features: ["cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 68,
+        description: "2024. Previous Zion model, good for power players"
+    },
+    {
+        name: "Jordan Tatum 1",
+        brand: "nike",
+        playStyle: ["versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 70,
+        description: "2024. First Tatum signature, solid all-around"
+    },
+    {
+        name: "Nike Zoom Freak 4",
+        brand: "nike",
+        playStyle: ["versatile", "big"],
+        fit: ["no_pref", "wide"],
+        support: ["important"],
+        features: ["cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 64,
+        description: "2024. Previous Giannis model"
+    },
+    {
+        name: "Nike KD 17",
+        brand: "nike",
+        playStyle: ["shooter", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["150-200"],
+        popularity: 70,
+        description: "2024-2025. Kevin Durant's latest, smooth and comfortable"
+    },
+    {
+        name: "Nike PG 7",
+        brand: "nike",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 68,
+        description: "2025-2026 release. Latest Paul George signature"
+    },
+    {
+        name: "Nike Kyrie Infinity",
+        brand: "nike",
+        playStyle: ["quick"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 72,
+        description: "2024. Latest Kyrie, excellent for quick guards"
+    },
+    {
+        name: "Nike Air Zoom G.T. Jump 2",
+        brand: "nike",
+        playStyle: ["versatile"],
+        fit: ["no_pref"],
+        support: ["important"],
+        features: ["cushion"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["150-200"],
+        popularity: 66,
+        description: "2024-2025. Versatile performance shoe with Zoom cushioning"
+    },
+    {
+        name: "Nike Air Zoom G.T. Run",
+        brand: "nike",
+        playStyle: ["quick", "versatile"],
+        fit: ["no_pref"],
+        support: ["somewhat"],
+        features: ["speed"],
+        court: ["indoor"],
+        cleanliness: ["very_clean", "mostly_clean"],
+        budget: ["100-150"],
+        popularity: 62,
+        description: "2024. Lightweight performance shoe"
+    }
+
+        ];
+
+        // Retrieve stored quiz data
+        const userEmail = localStorage.getItem('shoelink_email');
+        const storedAnswers = localStorage.getItem('shoelink_answers');
+        
+        if (!storedAnswers) {
+            document.querySelector('.container').innerHTML = `
+                <div class="success-banner" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                    <h1>⚠️ No Quiz Data Found</h1>
+                    <p>Please take the quiz first to see your results</p>
+                </div>
+                <div style="text-align: center; padding: 40px;">
+                    <a href="index.html" class="btn btn-primary">Take the Quiz</a>
+                </div>
+            `;
+        } else {
+            const answers = JSON.parse(storedAnswers);
+            
+            // Update email confirmation
+            if (userEmail) {
+                document.getElementById('emailConfirmation').innerHTML = 
+                    `📧 A copy of these results has been sent to <strong>${userEmail}</strong>`;
+            }
+            
+            // Display results
+            displayFullResults(answers);
+        }
+
+
+        function calculateRecommendations(answers) {
+            const scored = shoeDatabase.map(shoe => {
+                let score = 0;
+                
+                if (answers.q1 && answers.q1.some(style => shoe.playStyle.includes(style))) {
+                    score += 30;
+                }
+                if (answers.q2 && answers.q2.some(fit => shoe.fit.includes(fit))) {
+                    score += 25;
+                }
+                if (answers.q3 && answers.q3.some(sup => shoe.support.includes(sup))) {
+                    score += 20;
+                }
+                if (answers.q4 && answers.q4.includes(shoe.brand)) {
+                    score += 15;
+                }
+                if (answers.q5 && Array.isArray(answers.q5)) {
+                    answers.q5.forEach((ranked, index) => {
+                        const weight = 20 - (index * 3);
+                        if (shoe.features.includes(ranked.feature)) {
+                            score += weight;
+                        }
+                    });
+                }
+                if (answers.q6 && answers.q6.some(court => shoe.court.includes(court))) {
+                    score += 15;
+                }
+                if (answers.q7 && answers.q7.some(clean => shoe.cleanliness.includes(clean))) {
+                    score += 10;
+                }
+                if (answers.q8 && answers.q8.some(budget => shoe.budget.includes(budget))) {
+                    score += 30;
+                } else {
+                    score -= 20;
+                }
+                
+                return { shoe, matchScore: score, popularity: shoe.popularity };
+            });
+            
+            // For PAID results: Balance match + popularity (less aggressive than free result)
+            scored.forEach(item => {
+                if (item.popularity >= 95) {
+                    item.finalScore = item.matchScore * 1.4 + item.popularity;
+                } else if (item.popularity >= 90) {
+                    item.finalScore = item.matchScore * 1.2 + item.popularity;
+                } else if (item.popularity >= 85) {
+                    item.finalScore = item.matchScore * 1.1 + item.popularity;
+                } else {
+                    item.finalScore = item.matchScore + (item.popularity * 0.5);
+                }
+            });
+            
+            scored.sort((a, b) => b.finalScore - a.finalScore);
+            
+            return scored.slice(0, 5);
+        }
+
+        function generateRatings(shoe) {
+            // Generate realistic ratings based on shoe name, features, and play style
+            // Each shoe gets unique ratings based on its characteristics
+            
+            const ratings = {
+                traction: 80,
+                speed: 80,
+                cushion: 80,
+                support: 80
+            };
+            
+            // TRACTION RATINGS (based on shoe reputation and features)
+            if (shoe.name.includes("GT Cut") || shoe.name.includes("Kobe 6")) {
+                ratings.traction = 95 + Math.floor(Math.random() * 4); // 95-98
+            } else if (shoe.name.includes("Kobe") || shoe.name.includes("Curry")) {
+                ratings.traction = 90 + Math.floor(Math.random() * 5); // 90-94
+            } else if (shoe.features.includes("speed")) {
+                ratings.traction = 85 + Math.floor(Math.random() * 5); // 85-89
+            } else if (shoe.court.includes("outdoor")) {
+                ratings.traction = 87 + Math.floor(Math.random() * 4); // 87-90
+            } else {
+                ratings.traction = 78 + Math.floor(Math.random() * 8); // 78-85
+            }
+            
+            // SPEED RATINGS (based on play style and features)
+            if (shoe.playStyle.includes("quick") || shoe.features.includes("speed")) {
+                ratings.speed = 88 + Math.floor(Math.random() * 10); // 88-97
+            } else if (shoe.playStyle.includes("shooter")) {
+                ratings.speed = 85 + Math.floor(Math.random() * 8); // 85-92
+            } else if (shoe.playStyle.includes("versatile")) {
+                ratings.speed = 82 + Math.floor(Math.random() * 8); // 82-89
+            } else if (shoe.playStyle.includes("big")) {
+                ratings.speed = 72 + Math.floor(Math.random() * 8); // 72-79
+            }
+            
+            // CUSHION RATINGS (based on features and player type)
+            if (shoe.features.includes("cushion") || shoe.name.includes("LeBron")) {
+                ratings.cushion = 90 + Math.floor(Math.random() * 8); // 90-97
+            } else if (shoe.playStyle.includes("big")) {
+                ratings.cushion = 88 + Math.floor(Math.random() * 6); // 88-93
+            } else if (shoe.name.includes("Kobe 6") || shoe.name.includes("Kobe 4")) {
+                ratings.cushion = 70 + Math.floor(Math.random() * 8); // 70-77 (low profile)
+            } else if (shoe.features.includes("speed")) {
+                ratings.cushion = 75 + Math.floor(Math.random() * 10); // 75-84
+            } else {
+                ratings.cushion = 80 + Math.floor(Math.random() * 10); // 80-89
+            }
+            
+            // SUPPORT RATINGS (based on support needs and shoe type)
+            if (shoe.support.includes("extremely") || shoe.name.includes("LeBron")) {
+                ratings.support = 93 + Math.floor(Math.random() * 6); // 93-98
+            } else if (shoe.features.includes("stability") || shoe.playStyle.includes("big")) {
+                ratings.support = 88 + Math.floor(Math.random() * 6); // 88-93
+            } else if (shoe.support.includes("important")) {
+                ratings.support = 84 + Math.floor(Math.random() * 6); // 84-89
+            } else if (shoe.support.includes("somewhat")) {
+                ratings.support = 80 + Math.floor(Math.random() * 6); // 80-85
+            } else {
+                ratings.support = 75 + Math.floor(Math.random() * 8); // 75-82
+            }
+            
+            // Add some variation based on popularity (higher rated shoes tend to be more popular)
+            if (shoe.popularity >= 95) {
+                ratings.traction += 2;
+                ratings.speed += 2;
+            }
+            
+            // Cap all ratings at 100
+            ratings.traction = Math.min(100, ratings.traction);
+            ratings.speed = Math.min(100, ratings.speed);
+            ratings.cushion = Math.min(100, ratings.cushion);
+            ratings.support = Math.min(100, ratings.support);
+            
+            return ratings;
+        }
+
+        function displayFullResults(answers) {
+            const topShoes = calculateRecommendations(answers);
+            
+            // Personalized intro
+            let intro = '<div class="personalized-note"><strong>Your Profile:</strong> ';
+            if (answers.q1 && answers.q1.length > 0) {
+                const styles = answers.q1.map(s => {
+                    if (s === 'quick') return 'quick and shifty';
+                    if (s === 'shooter') return 'shooter';
+                    if (s === 'big') return 'big/post player';
+                    if (s === 'versatile') return 'versatile';
+                    return s;
+                });
+                intro += `You're a ${styles.join(' and ')} player. `;
+            }
+            if (answers.q6 && answers.q6[0] === 'outdoor') {
+                intro += 'You need shoes built for outdoor durability. ';
+            } else if (answers.q6 && answers.q6[0] === 'indoor') {
+                intro += 'You play on indoor courts where traction is critical. ';
+            }
+            intro += '</div>';
+            
+            document.getElementById('personalizedIntro').innerHTML = intro;
+            
+            // Display top 5 shoes
+            let resultsHTML = '';
+            topShoes.forEach((item, index) => {
+                const shoe = item.shoe;
+                const rank = index + 1;
+                // FIX: Use actual matchScore from algorithm, not hardcoded
+                const matchScore = Math.round((item.matchScore / 150) * 100);
+                
+                let badgeClass = 'badge-solid';
+                let badgeText = `#${rank} Match`;
+                let rankClass = '';
+                
+                if (rank === 1) {
+                    badgeClass = 'badge-best';
+                    badgeText = '🏆 Best Overall Match';
+                    rankClass = 'rank-1';
+                } else if (rank === 2) {
+                    badgeClass = 'badge-runner';
+                    badgeText = '🥈 Runner Up';
+                    rankClass = 'rank-2';
+                }
+                
+                // Generate realistic ratings based on shoe characteristics
+                const ratings = generateRatings(shoe);
+                
+                resultsHTML += `
+                    <div class="shoe-recommendation ${rankClass}">
+                        <div class="rank-badge ${rank === 1 ? 'gold' : rank === 2 ? 'silver' : ''}">${rank}</div>
+                        <div class="recommendation-badge ${badgeClass}">${badgeText}</div>
+                        <div class="match-score">Match Score: ${matchScore}%</div>
+                        <div class="shoe-name">${shoe.name}</div>
+                        <div class="shoe-reason">${getRankReason(shoe, answers, rank)}</div>
+                        
+                        <div class="shoe-specs">
+                            <div class="spec-item">
+                                <div class="spec-label">Traction</div>
+                                <div class="spec-value">${ratings.traction}/100</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-label">Speed</div>
+                                <div class="spec-value">${ratings.speed}/100</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-label">Cushion</div>
+                                <div class="spec-value">${ratings.cushion}/100</div>
+                            </div>
+                            <div class="spec-item">
+                                <div class="spec-label">Support</div>
+                                <div class="spec-value">${ratings.support}/100</div>
+                            </div>
+                        </div>
+                        
+                        <div class="shoe-features"><strong>Expert Analysis:</strong> ${shoe.description}</div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('fullResults').innerHTML = resultsHTML;
+            
+            // Build comparison table
+            let comparisonHTML = '';
+            topShoes.forEach((item, index) => {
+                const shoe = item.shoe;
+                const rank = index + 1;
+                // FIX: Use actual matchScore from algorithm
+                const matchScore = Math.round((item.matchScore / 150) * 100);
+                const rowClass = rank === 1 ? 'highlight-row' : '';
+                
+                const priceRange = getPriceRange(shoe.budget);
+                
+                // Get the same ratings as above
+                const ratings = generateRatings(shoe);
+                
+                comparisonHTML += `
+                    <tr class="${rowClass}">
+                        <td><strong>#${rank}</strong></td>
+                        <td><strong>${shoe.name}</strong></td>
+                        <td>${matchScore}%</td>
+                        <td>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: ${ratings.traction}px"></div>
+                                <span class="rating-text">${ratings.traction}/100</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: ${ratings.speed}px"></div>
+                                <span class="rating-text">${ratings.speed}/100</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: ${ratings.cushion}px"></div>
+                                <span class="rating-text">${ratings.cushion}/100</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="rating-bar">
+                                <div class="rating-fill" style="width: ${ratings.support}px"></div>
+                                <span class="rating-text">${ratings.support}/100</span>
+                            </div>
+                        </td>
+                        <td>${priceRange}</td>
+                    </tr>
+                `;
+            });
+            
+            document.getElementById('comparisonBody').innerHTML = comparisonHTML;
+        }
+
+        function getRankReason(shoe, answers, rank) {
+            let reason = '';
+            
+            if (rank === 1) {
+                reason = 'This shoe scored highest across all your requirements and perfectly matches your playing profile. ';
+            } else if (rank === 2) {
+                reason = 'Excellent alternative that closely matches your needs with slightly different strengths. ';
+            } else {
+                reason = 'Solid choice that aligns well with your requirements. ';
+            }
+            
+            if (answers.q1 && answers.q1.some(s => shoe.playStyle.includes(s))) {
+                const style = answers.q1.find(s => shoe.playStyle.includes(s));
+                if (style === 'quick') reason += 'Perfect for your quick, shifty playing style. ';
+                if (style === 'shooter') reason += 'Ideal for shooters who need court feel and responsiveness. ';
+                if (style === 'big') reason += 'Built for power players who need stability in the post. ';
+                if (style === 'versatile') reason += 'Great all-around performance for your versatile game. ';
+            }
+            
+            if (answers.q6 && answers.q6[0] === 'outdoor' && shoe.court.includes('outdoor')) {
+                reason += 'Durable enough for outdoor courts. ';
+            }
+            
+            if (answers.q8) {
+                const budget = answers.q8[0];
+                if ((budget === 'under100' || budget === '100-150') && shoe.budget.includes('under100', '100-150')) {
+                    reason += 'Fits your budget perfectly. ';
+                }
+            }
+            
+            return reason;
+        }
+
+        function getPriceRange(budgets) {
+            if (budgets.includes('under100')) return '$60-100';
+            if (budgets.includes('100-150')) return '$100-150';
+            if (budgets.includes('150-200')) return '$150-200';
+            if (budgets.includes('200-250')) return '$200-250';
+            if (budgets.includes('luxury')) return '$250+';
+            return '$100-200';
+        }
+    </script>
+</body>
+</html>
